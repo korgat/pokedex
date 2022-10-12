@@ -1,0 +1,39 @@
+import { FC } from 'react';
+
+import { TPokemon } from '../../@types/type';
+
+type TTileProps = {
+    active: boolean;
+    setActiveItem: React.Dispatch<React.SetStateAction<TPokemon | null>>;
+} & TPokemon;
+
+const Tile: FC<TTileProps> = ({
+    id,
+    active,
+    name,
+    largeImg,
+    smallImg,
+    types,
+    stats,
+    setActiveItem,
+}) => {
+    return (
+        <div
+            className={active ? 'item active' : 'item'}
+            onClick={() => setActiveItem({ id, name, largeImg, smallImg, types, stats })}>
+            <img className="item__image" src={largeImg} alt="pokemon" />
+            <h3 className="item__title">{name}</h3>
+            <ul className="item__abilities">
+                {types.map((obj) => {
+                    return (
+                        <li key={obj.type.name} className={'ability__' + obj.type.name}>
+                            {obj.type.name}
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
+};
+
+export default Tile;
