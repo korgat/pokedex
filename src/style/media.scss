@@ -36,7 +36,20 @@
     }
 }
 @media (max-width: 439px) {
-    .main__left {
-        max-width: 200px;
+    .main {
+        &-header {
+            flex-direction: column;
+            align-items: center;
+            &__input {
+                max-width: 150px;
+                margin-bottom: 7px;
+            }
+            &__select {
+                margin-left: 0;
+            }
+        }
+        &__left {
+            max-width: 200px;
+        }
     }
 }

@@ -69,13 +69,9 @@ function App() {
                     <h1>Pokedex</h1>
                 </div>
                 <div className="main">
-                    <MainHeader
-                        setFilter={setFilter}
-                        setIsFetching={setIsFetching}
-                        setPokemons={setPokemons}
-                    />
                     <div className="main-wrapper">
                         <div className="main__left">
+                            <MainHeader setActiveItem={setActiveItem} setFilter={setFilter} />
                             <div className="main__list">
                                 {filteredPokemons.map((obj) => (
                                     <Tile

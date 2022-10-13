@@ -22,7 +22,11 @@ const Tile: FC<TTileProps> = ({
             className={active ? 'item active' : 'item'}
             onClick={() => setActiveItem({ id, name, largeImg, smallImg, types, stats })}>
             <img className="item__image" src={largeImg} alt="pokemon" />
-            <h3 className="item__title">{name}</h3>
+            <div className="item__title">
+                <h3>{name}</h3>
+                <div className="item__id">#{id}</div>
+            </div>
+
             <ul className="item__abilities">
                 {types.map((obj) => {
                     return (
