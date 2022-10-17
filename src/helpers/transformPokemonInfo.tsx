@@ -16,7 +16,11 @@ export const transformPokemonsInfo = (promisesArr: Array<Promise<any>>): Promise
                 name: data.name,
                 types: data.types,
                 smallImg: data.sprites.front_default,
-                largeImg: data.sprites.other.dream_world.front_default,
+                largeImg:
+                    data.sprites.other.dream_world.front_default ||
+                    data.sprites.other['official-artwork'].front_default ||
+                    data.sprites.front_default ||
+                    'pokeball.png',
                 id: data.id,
                 stats,
             };
