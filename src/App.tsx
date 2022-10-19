@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-import { Description, Loader, MainHeader, Tile } from './components';
+import {
+  Description,
+  LoadButton,
+  Loader,
+  MainHeader,
+  Tile,
+} from './components';
 
 import { TPokemon, TPokemonListResult } from './@types/type';
-import { getPokemonList } from './API/pokemonAPI';
-import { transformPokemonsInfo } from './helpers/transformPokemonInfo';
+import getPokemonList from './API/pokemonAPI';
+import transformPokemonsInfo from './helpers/transformPokemonInfo';
 import './style/style.scss';
 
 function App() {
@@ -14,22 +20,18 @@ function App() {
   const [pokemons, setPokemons] = useState<TPokemon[]>([]);
   const [typedPokemons, setTypedPokemons] = useState<TPokemon[]>([]);
   const [isFetching, setIsFetching] = useState(true);
-  const [filter, setFilter] = useState<string | null>(null);
-  console.log(nextLoadURL);
+  const [filter, setFilter] = useState<string>('All');
 
   const onShowMoreClick = () => {
     const givenArr = typedPokemons;
     if (givenArr) {
       const cutArr = givenArr.splice(0, 12);
-      console.log('gevenArr', givenArr);
-      console.log('cutArr', cutArr);
       setTypedPokemons(givenArr);
       setPokemons((prevState) => [...prevState, ...cutArr]);
     }
   };
 
   const onLoadMoreClick = async () => {
-    console.log(nextLoadURL);
     if (nextLoadURL) {
       setIsFetching(true);
       try {
@@ -42,6 +44,7 @@ function App() {
         setPokemons((prevPokemons) => [...prevPokemons, ...pokemonsInfo]);
         setIsFetching(false);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     }
@@ -53,30 +56,32 @@ function App() {
         const { data } = await getPokemonList(undefined, { limit: 12 });
         setNextLoadURL(data.next);
 
-        const fullDescriptions = data.results.map(({ url }: TPokemonListResult) => axios.get(url));
+        const fullDescriptions = data.results.map(
+          ({ url }: TPokemonListResult) => axios.get(url)
+        );
 
         const pokemonsInfo = await transformPokemonsInfo(fullDescriptions);
         setPokemons((prevPokemons) => [...prevPokemons, ...pokemonsInfo]);
 
         setIsFetching(false);
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     })();
   }, []);
 
   let filteredPokemons = pokemons;
-  if (filter) {
-    filteredPokemons = pokemons.filter((obj) => {
-      return obj.types.some((obj) => obj.type.name === filter);
-    });
+  if (filter !== 'All') {
+    filteredPokemons = pokemons.filter((pokemonInfo) =>
+      pokemonInfo.types.some((obj) => obj.type.name === filter)
+    );
   }
 
   return (
     <div className="App">
       <div className="container">
         <div className="page__title">
-          <div></div>
           <h1>Pokedex</h1>
         </div>
         <div className="main">
@@ -84,7 +89,6 @@ function App() {
             <div className="main__left">
               <MainHeader
                 setTypedPokemons={setTypedPokemons}
-                onLoadMoreClick={onLoadMoreClick}
                 setNextLoadURL={setNextLoadURL}
                 setIsFetching={setIsFetching}
                 setPokemons={setPokemons}
@@ -95,29 +99,35 @@ function App() {
                 {filteredPokemons.map((obj) => (
                   <Tile
                     key={obj.id}
-                    {...obj}
+                    id={obj.id}
+                    name={obj.name}
+                    largeImg={obj.largeImg}
+                    smallImg={obj.smallImg}
+                    types={obj.types}
+                    stats={obj.stats}
                     active={activeItem?.id === obj.id}
                     setActiveItem={setActiveItem}
                   />
                 ))}
               </div>
-              {isFetching ? (
-                <Loader />
-              ) : typedPokemons.length > 0 ? (
-                <button className="main__load-btn" onClick={onShowMoreClick}>
-                  Show More
-                </button>
+              {isFetching && <Loader />}
+              {typedPokemons.length > 0 ? (
+                <LoadButton clickFn={onShowMoreClick} />
               ) : (
-                nextLoadURL && (
-                  <button className="main__load-btn" onClick={onLoadMoreClick}>
-                    Load More
-                  </button>
-                )
+                nextLoadURL && <LoadButton clickFn={onLoadMoreClick} />
               )}
             </div>
             {activeItem && (
               <div className="main__right">
-                <Description setActiveItem={setActiveItem} {...activeItem} />
+                <Description
+                  stats={activeItem.stats}
+                  name={activeItem.name}
+                  largeImg={activeItem.largeImg}
+                  smallImg={activeItem.smallImg}
+                  types={activeItem.types}
+                  id={activeItem.id}
+                  setActiveItem={setActiveItem}
+                />
               </div>
             )}
           </div>

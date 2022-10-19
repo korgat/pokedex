@@ -33,17 +33,8 @@ export type TResponseData = {
   moves: TType[];
   name: string;
   names: Array<{ name: string; language: TType }>;
-  past_damage_relations: Array<Object>;
+  past_damage_relations: Record<string, unknown>;
   pokemon: Array<{ slot: number; pokemon: TType }>;
-};
-
-enum TKeys {
-  back_default = 'back_default',
-  back_female = 'back_female',
-}
-
-export type ttt = {
-  [key in TKeys]: string;
 };
 
 export type TPokemonAPI = {
@@ -52,7 +43,10 @@ export type TPokemonAPI = {
   forms: Array<TType>;
   game_indices: Array<{ game_index: number; version: TType }>;
   height: number;
-  held_items: Array<{ item: TType; version_details: Array<{ rarity: number; version: TType }> }>;
+  held_items: Array<{
+    item: TType;
+    version_details: Array<{ rarity: number; version: TType }>;
+  }>;
   id: number;
   is_default: boolean;
   location_area_encounters: string;
@@ -66,9 +60,9 @@ export type TPokemonAPI = {
   }>;
   name: string;
   order: number;
-  past_types: Array<Object>;
+  past_types: Record<string, unknown>;
   species: TType;
-  sprites: Object;
+  sprites: Record<string, unknown>;
   stats: Array<{ base_stat: number; effort: number; stat: TType }>;
   types: Array<{ slot: number; type: TType }>;
   weight: number;

@@ -1,5 +1,5 @@
-import { FC } from 'react';
-
+import { useCallback } from 'react';
+import typesColor from '../../config/colors';
 import { TPokemon } from '../../@types/type';
 
 type TTileProps = {
@@ -7,7 +7,7 @@ type TTileProps = {
   setActiveItem: React.Dispatch<React.SetStateAction<TPokemon | null>>;
 } & TPokemon;
 
-const Tile: FC<TTileProps> = ({
+function Tile({
   id,
   active,
   name,
@@ -16,11 +16,17 @@ const Tile: FC<TTileProps> = ({
   types,
   stats,
   setActiveItem,
-}) => {
+}: TTileProps) {
+  const onTileClick = useCallback(
+    () => setActiveItem({ id, name, largeImg, smallImg, types, stats }),
+    []
+  );
   return (
     <div
+      role="button"
       className={active ? 'item active' : 'item'}
-      onClick={() => setActiveItem({ id, name, largeImg, smallImg, types, stats })}>
+      onClick={onTileClick}
+    >
       <img className="item__image" src={largeImg} alt="pokemon" />
       <div className="item__title">
         <h3>{name}</h3>
@@ -28,16 +34,17 @@ const Tile: FC<TTileProps> = ({
       </div>
 
       <ul className="item__abilities">
-        {types.map((obj) => {
-          return (
-            <li key={obj.type.name} className={'ability__' + obj.type.name}>
-              {obj.type.name}
-            </li>
-          );
-        })}
+        {types.map((obj) => (
+          <li
+            key={obj.type.name}
+            style={{ backgroundColor: typesColor[obj.type.name] || '#808080' }}
+          >
+            {obj.type.name}
+          </li>
+        ))}
       </ul>
     </div>
   );
-};
+}
 
 export default Tile;
