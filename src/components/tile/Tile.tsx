@@ -22,11 +22,7 @@ function Tile({
     []
   );
   return (
-    <div
-      role="button"
-      className={active ? 'item active' : 'item'}
-      onClick={onTileClick}
-    >
+    <div className={active ? 'item active' : 'item'}>
       <img className="item__image" src={largeImg} alt="pokemon" />
       <div className="item__title">
         <h3>{name}</h3>
@@ -43,6 +39,9 @@ function Tile({
           </li>
         ))}
       </ul>
+      <button className="item__btn" type="button" onClick={onTileClick}>
+        See details
+      </button>
     </div>
   );
 }

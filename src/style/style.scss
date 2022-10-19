@@ -161,6 +161,7 @@
 }
 
 .item {
+  position: relative;
   border: 1px solid #000;
   max-width: 200px;
   width: 100%;
@@ -170,11 +171,8 @@
   box-shadow: 0px 0px 4px #6c6c6c;
   transition: transform 0.2s ease-in, box-shadow 0.2s ease-in;
 
-  &:hover {
-    transform: translateY(-8px);
-    box-shadow: 0px 11px 7px #6c6c6c;
-  }
-
+  &:hover,
+  &:focus-within,
   &.active {
     transform: translateY(-8px);
     box-shadow: 0px 11px 7px #6c6c6c;
@@ -222,6 +220,16 @@
       box-shadow: inset 0px 0px 7px #fff;
       color: #fff;
     }
+  }
+
+  &__btn {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
   }
 }
 
