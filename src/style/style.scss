@@ -1,5 +1,16 @@
-@import '_norm';
-@import '_zero';
+@import 'norm';
+@import 'zero';
+@import 'variables';
+
+.react-select {
+  &__option,
+  &__control {
+    box-shadow: inset 0px 0px 7px #fff !important;
+  }
+  &__single-value {
+    color: #fff !important;
+  }
+}
 
 .hide {
   display: none !important;
@@ -36,11 +47,27 @@
     align-items: center;
     width: 100%;
 
-    background-color: #565656;
+    background-color: #4c596e;
     margin-bottom: 20px;
     border-radius: 10px;
     max-width: 640px;
     padding: 8px 20px;
+
+    &__select-block {
+      display: flex;
+      margin-left: 20px;
+    }
+
+    &__filter {
+      width: 118px;
+      margin-bottom: 5px;
+    }
+
+    &__load-type {
+      width: 155px;
+      margin-left: 10px;
+    }
+
     &__input {
       position: relative;
       max-width: 200px;
@@ -51,13 +78,18 @@
         border-radius: 4px;
         border: none;
         padding: 2px 8px;
-        padding-right: 35px;
+        padding-right: 45px;
         font-size: 18px;
+
         &::placeholder {
           font-size: 16px;
           color: #808080;
         }
+        &:focus {
+          box-shadow: 0px 0px 0px 2px #2684ff;
+        }
       }
+
       .clear-btn {
         content: '';
         position: absolute;
@@ -87,10 +119,6 @@
           }
         }
       }
-    }
-    &__select {
-      margin-left: 20px;
-      width: 150px;
     }
   }
 
@@ -196,63 +224,11 @@
     }
   }
 }
+
 .ability {
   box-shadow: inset 0px 0px 7px #fff;
-  &__grass {
-    background-color: #78c850;
-  }
-  &__poison {
-    background-color: #a040a0;
-  }
-  &__fire {
-    background-color: #f08030;
-  }
-  &__electric {
-    background-color: #f8d030;
-  }
-  &__flying {
-    background-color: #a890f0;
-  }
-  &__water {
-    background-color: #6890f0;
-  }
-  &__bug {
-    background-color: #a8b820;
-  }
-  &__normal {
-    background-color: #a8a878;
-  }
-  &__ground {
-    background-color: #e0c068;
-  }
-  &__fairy {
-    background-color: #ee99ac;
-  }
-  &__fighting {
-    background-color: #c03028;
-  }
-  &__psychic {
-    background-color: #f85888;
-  }
-  &__rock {
-    background-color: #b8a038;
-  }
-  &__steel {
-    background-color: #b8b8d0;
-  }
-  &__ghost {
-    background-color: #705898;
-  }
-  &__ice {
-    background-color: #98d8d8;
-  }
-  &__dragon {
-    background-color: #7038f8;
-  }
-  &__dark {
-    background-color: #705848;
-  }
 }
+
 .description {
   position: sticky;
   top: 15%;
@@ -309,6 +285,7 @@
     width: 100%;
     font-weight: 700;
     color: #565656;
+
     td {
       text-align: center;
       line-height: 25px;
