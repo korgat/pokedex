@@ -7,20 +7,8 @@ type TTileProps = {
   setActiveItem: React.Dispatch<React.SetStateAction<TPokemon | null>>;
 } & TPokemon;
 
-function Tile({
-  id,
-  active,
-  name,
-  largeImg,
-  smallImg,
-  types,
-  stats,
-  setActiveItem,
-}: TTileProps) {
-  const onTileClick = useCallback(
-    () => setActiveItem({ id, name, largeImg, smallImg, types, stats }),
-    []
-  );
+function Tile({ id, active, name, largeImg, smallImg, types, stats, setActiveItem }: TTileProps) {
+  const onTileClick = useCallback(() => setActiveItem({ id, name, largeImg, smallImg, types, stats }), []);
   return (
     <div className={active ? 'item active' : 'item'}>
       <img className="item__image" src={largeImg} alt="pokemon" />
@@ -31,10 +19,7 @@ function Tile({
 
       <ul className="item__abilities">
         {types.map((obj) => (
-          <li
-            key={obj.type.name}
-            style={{ backgroundColor: typesColor[obj.type.name] || '#808080' }}
-          >
+          <li key={obj.type.name} style={{ backgroundColor: typesColor[obj.type.name] || '#808080' }}>
             {obj.type.name}
           </li>
         ))}
